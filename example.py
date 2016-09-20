@@ -2,7 +2,8 @@
 import __init__ as logbook
 
 # Create an experiment
-# A unique, timestamped output directory will be created
+# A unique directory will be created with the experiment name, a timestamp,
+# and the current git hash.
 exp_name = "hello_world"
 exp = logbook.Experiment(exp_name)
 
