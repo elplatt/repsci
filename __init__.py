@@ -1,4 +1,4 @@
-# logbook.py version 1.0.0
+# logbook.py version 1.0.1
 # Copyright 2016, Edward L. Platt
 # Distributed under BSD 3-Clause License
 # See LICENSE for details
@@ -11,7 +11,7 @@ import os.path
 import time
 
 class Experiment(object):
-    def __init__(self, exp_name, output_dir="output"):
+    def __init__(self, exp_name, output_dir="output", suffix=""):
         self.exp_name = exp_name
         self.output_dir = output_dir
         start_ts = time.time()
@@ -21,12 +21,13 @@ class Experiment(object):
             ['git', 'rev-parse', 'HEAD']).strip()
         self.git_short = subprocess.check_output(
             ['git', 'rev-parse', '--short', 'HEAD']).strip()
+        self.suffix = " " + suffix
         
     def get_output_dir(self):
         path = os.path.join(
             self.output_dir,
             self.exp_name,
-            "%s %s" % (self.start_time, self.git_short))
+            "%s %s%s" % (self.start_time, self.git_short, self.suffix))
         try:
             os.makedirs(path)
         except OSError as exc:  # Python >2.5
