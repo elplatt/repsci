@@ -1,8 +1,9 @@
 # logbook.py version 1.0.1
-# Copyright 2016, Edward L. Platt
+# Copyright 2016-2019, Edward L. Platt
 # Distributed under BSD 3-Clause License
 # See LICENSE for details
 
+import configparser
 import datetime
 import errno
 import logging
@@ -11,31 +12,42 @@ import os.path
 import time
 
 class Experiment(object):
-    def __init__(self, exp_name, output_dir="output", suffix=""):
+    def __init__(self, exp_name, output_dir="output", suffix="", config=None):
+        # Set fields
         self.exp_name = exp_name
         self.output_dir = output_dir
         start_ts = time.time()
         start_dt = datetime.datetime.fromtimestamp(start_ts)
         self.start_time = start_dt.strftime('%Y-%m-%d %H:%M:%S')
-        self.git_hash = subprocess.check_output(
-            ['git', 'rev-parse', 'HEAD']).strip()
-        self.git_short = subprocess.check_output(
-            ['git', 'rev-parse', '--short', 'HEAD']).strip()
+        self.git_hash = subprocess.getoutput(
+            'git rev-parse HEAD').strip()
+        self.git_short = subprocess.getoutput(
+            'git rev-parse --short HEAD').strip()
         self.suffix = " " + suffix
-        
-    def get_output_dir(self):
-        path = os.path.join(
+        self.config = config
+        # Create output directory
+        self.exp_dir = os.path.join(
             self.output_dir,
             self.exp_name,
-            "%s %s%s" % (self.start_time, self.git_short, self.suffix))
+            "{} {}{}".format(
+                self.start_time,
+                self.git_short,
+                self.suffix))
         try:
-            os.makedirs(path)
+            os.makedirs(self.exp_dir)
         except OSError as exc:  # Python >2.5
-            if exc.errno == errno.EEXIST and os.path.isdir(path):
+            if exc.errno == errno.EEXIST and os.path.isdir(self.exp_dir):
                 pass
             else:
                 raise
-        return path
+        # Add copy of config to output directory
+        if config is not None:
+            config_path = os.path.join(self.exp_dir, 'config.ini')
+            with open(config_path, 'w') as f:
+                config.write(f)
+        
+    def get_output_dir(self):
+        return self.exp_dir
         
     def get_logger(self, level=logging.INFO):
         path = self.get_output_dir()
