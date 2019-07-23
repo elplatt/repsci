@@ -18,6 +18,10 @@ Create an output file in the unique output directory.
     filename = exp.get_filename('output.csv')
     with open(filename, "wb") as f:
         f.write("Hello, World\n")
+
+The state of python's random number generator is stored in `random_state.bin`
+in pickle format. This state can be used to reproduce the output of randomized
+scripts.
         
 The Experiment constructor also has some optional parameters:
 * `config`: a configparser object, which will exported to the output directory.

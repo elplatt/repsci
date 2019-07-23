@@ -1,4 +1,4 @@
-# logbook.py version 1.0.1
+# logbook.py version 1.1.0
 # Copyright 2016-2019, Edward L. Platt
 # Distributed under BSD 3-Clause License
 # See LICENSE for details
@@ -7,8 +7,10 @@ import configparser
 import datetime
 import errno
 import logging
+import random
 import subprocess
 import os.path
+import pickle
 import time
 
 class Experiment(object):
@@ -33,6 +35,21 @@ class Experiment(object):
                 self.start_time,
                 self.git_short,
                 self.suffix))
+        self.create_output_dir()
+        # Add copy of config to output directory
+        if config is not None:
+            config_path = os.path.join(self.exp_dir, 'config.ini')
+            with open(config_path, 'w') as f:
+                config.write(f)
+        # Add random number generator state
+        rng_path = os.path.join(self.exp_dir, 'random_state.bin')
+        with open(rng_path, 'wb') as f:
+            pickle.dump(random.getstate(), f)
+        
+    def get_output_dir(self):
+        return self.exp_dir
+        
+    def create_output_dir(self):
         try:
             os.makedirs(self.exp_dir)
         except OSError as exc:  # Python >2.5
@@ -40,15 +57,7 @@ class Experiment(object):
                 pass
             else:
                 raise
-        # Add copy of config to output directory
-        if config is not None:
-            config_path = os.path.join(self.exp_dir, 'config.ini')
-            with open(config_path, 'w') as f:
-                config.write(f)
-        
-    def get_output_dir(self):
-        return self.exp_dir
-        
+
     def get_logger(self, level=logging.INFO):
         path = self.get_output_dir()
         log_file = os.path.join(path, "%s.log" % self.exp_name)

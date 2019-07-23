@@ -18,6 +18,5 @@ log.info(config['DEFAULT']['message'])
 
 # Create an output file in the unique output directory
 filename = exp.get_filename('output.csv')
-with open(filename, "wb") as f:
-    f.write(config['DEFAULT']['message'].encode('utf-8'))
-    f.write('\n'.encode('utf-8'))
+with open(filename, "w") as f:
+    f.write(config['DEFAULT']['message'] + '\n')
