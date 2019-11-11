@@ -1,5 +1,5 @@
 # Import the logging library
-import __init__ as logbook
+import __init__ as repsci
 
 # Create a config
 import configparser
@@ -10,7 +10,7 @@ config['DEFAULT'] = {
 
 # Create an experiment
 exp_name = "hello_config"
-exp = logbook.Experiment(exp_name, config=config)
+exp = repsci.Experiment(exp_name, config=config)
 
 # Get the logger and write a log message
 log = exp.get_logger()

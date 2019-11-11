@@ -1,12 +1,12 @@
 Import the logging library.
 
-    import logbook
+    import repsci
 
 Create an experiment. A unique directory will be created with the experiment
 name, a timestamp, and the current git hash.
 
     exp_name = "hello_world"
-    exp = logbook.Experiment(exp_name)
+    exp = repsci.Experiment(exp_name)
 
 Get the logger and write a log message.
 
