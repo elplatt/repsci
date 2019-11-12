@@ -1,5 +1,5 @@
 # Import the logging library
-import __init__ as repsci
+import repsci
 
 # Create an experiment
 # A unique directory will be created with the experiment name, a timestamp,

@@ -1,0 +1,6 @@
+setup.py
+repsci/__init__.py
+repsci.egg-info/PKG-INFO
+repsci.egg-info/SOURCES.txt
+repsci.egg-info/dependency_links.txt
+repsci.egg-info/top_level.txt

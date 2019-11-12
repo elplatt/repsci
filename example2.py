@@ -1,5 +1,5 @@
 # Import the logging library
-import __init__ as repsci
+import repsci
 
 # Create a config
 import configparser
