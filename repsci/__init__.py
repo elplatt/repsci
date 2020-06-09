@@ -27,6 +27,8 @@ class Experiment(object):
             'git rev-parse --short HEAD').strip()
         if len(suffix) > 0:
             self.suffix = " " + suffix
+        else:
+            self.suffix = ""
         self.config = config
         # Create output directory
         self.exp_dir = os.path.join(
