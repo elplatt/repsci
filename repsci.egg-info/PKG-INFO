@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: repsci
-Version: 1.1.5
+Version: 1.1.6
 Summary: A tool for reproducible scientific computing
 Home-page: https://github.com/elplatt/repsci
 Author: Edward L. Platt
@@ -36,7 +36,15 @@ Description: Import the logging library.
         * `output_dir`: the subdirectory of the current directory to place experiment directories in.
         * `suffix`: a string to append to the end of the trial's directory.
         
+        Create an experiment from a previous experiment's unique directory.
         
+            exp_name = "hello_world"
+            timestamp = "2020-09-09 152600"
+            exp = repsci.Experiment(exp_name, reproduce=timestamp)
+            
+        Get the config from the prevous experiment.
+        
+            config = exp.get_config()
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: BSD License

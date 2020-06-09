@@ -14,44 +14,53 @@ import pickle
 import time
 
 class Experiment(object):
-    def __init__(self, exp_name, output_dir="output", suffix="", config=None):
+    def __init__(self, exp_name, output_dir="output", suffix="", config=None, reproduce=None):
         # Set fields
         self.exp_name = exp_name
         self.output_dir = output_dir
-        start_ts = time.time()
-        start_dt = datetime.datetime.fromtimestamp(start_ts)
-        self.start_time = start_dt.strftime('%Y-%m-%d %H%M%S')
-        self.git_hash = subprocess.getoutput(
-            'git rev-parse HEAD').strip()
-        self.git_short = subprocess.getoutput(
-            'git rev-parse --short HEAD').strip()
-        if len(suffix) > 0:
-            self.suffix = " " + suffix
-        else:
-            self.suffix = ""
-        self.config = config
-        # Create output directory
-        self.exp_dir = os.path.join(
-            self.output_dir,
-            self.exp_name,
-            "{} {}{}".format(
-                self.start_time,
-                self.git_short,
-                self.suffix))
-        self.create_output_dir()
-        # Add copy of config to output directory
-        if config is not None:
+        if reproduce is not None:
+            self.exp_dir = os.path.join(
+                self.output_dir,
+                self.exp_name,
+                reproduce)
             config_path = os.path.join(self.exp_dir, 'config.ini')
-            with open(config_path, 'w') as f:
-                config.write(f)
-        # Add random number generator state
-        rng_path = os.path.join(self.exp_dir, 'random_state.bin')
-        with open(rng_path, 'wb') as f:
-            pickle.dump(random.getstate(), f)
+            self.config = configparser.ConfigParser()
+            self.config.read(config_path)
+        else:
+            start_ts = time.time()
+            start_dt = datetime.datetime.fromtimestamp(start_ts)
+            self.start_time = start_dt.strftime('%Y-%m-%d %H%M%S')
+            self.git_hash = subprocess.getoutput(
+                'git rev-parse HEAD').strip()
+            self.git_short = subprocess.getoutput(
+                'git rev-parse --short HEAD').strip()
+            if len(suffix) > 0:
+                self.suffix = " " + suffix
+            else:
+                self.suffix = ""
+            self.config = config
+            # Create output directory
+            self.exp_dir = os.path.join(
+                self.output_dir,
+                self.exp_name,
+                "{} {}{}".format(
+                    self.start_time,
+                    self.git_short,
+                    self.suffix))
+            self.create_output_dir()
+            # Add copy of config to output directory
+            if config is not None:
+                config_path = os.path.join(self.exp_dir, 'config.ini')
+                with open(config_path, 'w') as f:
+                    config.write(f)
+            # Add random number generator state
+            rng_path = os.path.join(self.exp_dir, 'random_state.bin')
+            with open(rng_path, 'wb') as f:
+                pickle.dump(random.getstate(), f)
         
     def get_output_dir(self):
         return self.exp_dir
-        
+    
     def create_output_dir(self):
         try:
             os.makedirs(self.exp_dir)
@@ -77,4 +86,8 @@ class Experiment(object):
     def get_filename(self, basename):
         path = self.get_output_dir()
         return os.path.join(path, basename)
+    
+    def get_config(self):
+        return self.config
+    
 

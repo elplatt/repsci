@@ -28,3 +28,12 @@ The Experiment constructor also has some optional parameters:
 * `output_dir`: the subdirectory of the current directory to place experiment directories in.
 * `suffix`: a string to append to the end of the trial's directory.
 
+Create an experiment from a previous experiment's unique directory.
+
+    exp_name = "hello_world"
+    timestamp = "2020-09-09 152600"
+    exp = repsci.Experiment(exp_name, reproduce=timestamp)
+    
+Get the config from the prevous experiment.
+
+    config = exp.get_config()
