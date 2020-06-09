@@ -4,8 +4,8 @@ with open("Readme.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="repsci", # Replace with your own username
-    version="1.1.3",
+    name="repsci",
+    version="1.1.4",
     author="Edward L. Platt",
     author_email="ed@elplatt.com",
     description="A tool for reproducible scientific computing",

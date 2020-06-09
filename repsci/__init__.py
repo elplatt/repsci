@@ -20,12 +20,13 @@ class Experiment(object):
         self.output_dir = output_dir
         start_ts = time.time()
         start_dt = datetime.datetime.fromtimestamp(start_ts)
-        self.start_time = start_dt.strftime('%Y-%m-%d %H:%M:%S')
+        self.start_time = start_dt.strftime('%Y-%m-%d %H%M%S')
         self.git_hash = subprocess.getoutput(
             'git rev-parse HEAD').strip()
         self.git_short = subprocess.getoutput(
             'git rev-parse --short HEAD').strip()
-        self.suffix = " " + suffix
+        if len(suffix) > 0:
+            self.suffix = " " + suffix
         self.config = config
         # Create output directory
         self.exp_dir = os.path.join(
