@@ -1,3 +1,7 @@
+Installing.
+
+    pip install repsci
+
 Import the logging library.
 
     import repsci
