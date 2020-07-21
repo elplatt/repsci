@@ -5,7 +5,7 @@ with open("Readme.md", "r") as fh:
 
 setuptools.setup(
     name="repsci",
-    version="1.1.7",
+    version="1.1.8",
     author="Edward L. Platt",
     author_email="ed@elplatt.com",
     description="A tool for reproducible scientific computing",
