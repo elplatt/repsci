@@ -28,6 +28,7 @@ in pickle format. This state can be used to reproduce the output of randomized
 scripts.
         
 The Experiment constructor also has some optional parameters:
+* `note`: a string of notes to store in a `notes.txt` file in the output directory.
 * `config`: a configparser object, which will exported to the output directory.
 * `output_dir`: the subdirectory of the current directory to place experiment directories in.
 * `suffix`: a string to append to the end of the trial's directory.

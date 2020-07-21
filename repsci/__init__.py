@@ -14,7 +14,14 @@ import pickle
 import time
 
 class Experiment(object):
-    def __init__(self, exp_name, output_dir="output", suffix="", config=None, reproduce=None):
+    def __init__(
+            self,
+            exp_name,
+            output_dir="output",
+            suffix="",
+            config=None,
+            note=None,
+            reproduce=None):
         # Set fields
         self.exp_name = exp_name
         self.output_dir = output_dir
@@ -62,6 +69,11 @@ class Experiment(object):
             rng_path = os.path.join(self.exp_dir, 'random_state.bin')
             with open(rng_path, 'wb') as f:
                 pickle.dump(random.getstate(), f)
+            # Write note to file
+            if note is not None:
+                note_path = os.path.join(self.exp_dir, 'note.txt')
+                with open(note_path, 'w') as f:
+                    f.write(note)
         
     def get_output_dir(self):
         return self.exp_dir
