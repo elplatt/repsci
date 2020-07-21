@@ -26,6 +26,11 @@ class Experiment(object):
             config_path = os.path.join(self.exp_dir, 'config.ini')
             self.config = configparser.ConfigParser()
             self.config.read(config_path)
+            # Load previous RNG state
+            rng_path = os.path.join(self.exp_dir, 'random_state.bin')
+            with open(rng_path, 'rb') as f:
+                random.setstate(pickle.load(f))
+            
         else:
             start_ts = time.time()
             start_dt = datetime.datetime.fromtimestamp(start_ts)
