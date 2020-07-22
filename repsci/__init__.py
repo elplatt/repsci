@@ -1,5 +1,5 @@
 # repsci.py version 1.1.0
-# Copyright 2016-2019, Edward L. Platt
+# Copyright 2016-2020, Edward L. Platt
 # Distributed under BSD 3-Clause License
 # See LICENSE for details
 
