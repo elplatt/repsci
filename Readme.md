@@ -1,5 +1,5 @@
 # repsci
-## Reproducible computational science
+Reproducible computational science
 
 Installing.
 
